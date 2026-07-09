@@ -2,7 +2,7 @@ from mcp.server.fastmcp import FastMCP
 from playwright.async_api import async_playwright
 from groq import Groq
 import os
-from starlette.middleware.cors import TrustedHostMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 import uvicorn
 
