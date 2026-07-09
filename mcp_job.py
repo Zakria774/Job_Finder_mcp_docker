@@ -2,6 +2,7 @@ from mcp.server.fastmcp import FastMCP
 from playwright.async_api import async_playwright
 from groq import Groq
 import os
+from starlette.middleware.cors import TrustedHostMiddleware
 
 import uvicorn
 
@@ -160,7 +161,8 @@ async def job_search(search: str):
     
 if __name__ == "__main__":
     app=mcp.sse_app()
-    port=int(os.environ.get("PORT", "8080"))
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+    port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
-    
+
     
