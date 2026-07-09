@@ -3,6 +3,7 @@ from playwright.async_api import async_playwright
 from groq import Groq
 import os
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 import uvicorn
 
@@ -161,8 +162,13 @@ async def job_search(search: str):
     
 if __name__ == "__main__":
     app=mcp.sse_app()
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
-    port = int(os.environ.get("PORT", 8000))
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    port=int(os.environ.get("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
 
     
