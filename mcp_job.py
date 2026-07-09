@@ -3,6 +3,8 @@ from playwright.async_api import async_playwright
 from groq import Groq
 import os
 
+import uvicorn
+
 mcp=FastMCP(
     name="mcp_job")
 
@@ -157,6 +159,8 @@ async def job_search(search: str):
             return best_jobs
     
 if __name__ == "__main__":
-    os.environ["HOST"] = "0.0.0.0"
-    os.environ["PORT"] = os.environ.get("PORT", "8080")
-    mcp.run(transport="sse")
+    app=mcp.sse_app()
+    port=int(os.environ.get("PORT", "8080"))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+    
+    
